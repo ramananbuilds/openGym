@@ -1,7 +1,8 @@
 # Keeps this mirror current with the original project on Gitea.
 # Daily cron plus a manual button (Actions -> Sync from upstream -> Run workflow).
-# A merge conflict fails the run loudly instead of silently diverging;
-# resolve it locally and push, then re-run.
+# Every branch on upstream is merged into its counterpart here; branches that
+# only exist upstream are created. Never force-pushes: a conflict fails the run
+# loudly instead of silently diverging - resolve it locally and push, then re-run.
 name: Sync from upstream
 
 on:
@@ -21,12 +22,26 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Fetch upstream and merge into main
+      - name: Fetch upstream and sync all branches + tags
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git remote add upstream https://gitea.com/DuarteSantos/openGym.git
-          git fetch upstream main --tags
-          git merge upstream/main --no-edit
-          git push origin main
+          git fetch upstream "+refs/heads/*:refs/remotes/upstream/*" --prune --tags
+          git fetch origin "+refs/heads/*:refs/remotes/origin/*"
+
+          for b in $(git for-each-ref --format="%(refname:short)" refs/remotes/upstream/); do
+            name="${b#upstream/}"
+            echo "::group::Branch $name"
+            if git show-ref --verify --quiet "refs/remotes/origin/$name"; then
+              git checkout -B "$name" "origin/$name"
+              git merge "upstream/$name" --no-edit
+            else
+              git branch "$name" "upstream/$name"
+            fi
+            git push origin "$name"
+            echo "::endgroup::"
+          done
+
           git push origin --tags
