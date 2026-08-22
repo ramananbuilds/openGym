@@ -1,0 +1,32 @@
+# Keeps this mirror current with the original project on Gitea.
+# Daily cron plus a manual button (Actions -> Sync from upstream -> Run workflow).
+# A merge conflict fails the run loudly instead of silently diverging;
+# resolve it locally and push, then re-run.
+name: Sync from upstream
+
+on:
+  schedule:
+    - cron: "23 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Fetch upstream and merge into main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream https://gitea.com/DuarteSantos/openGym.git
+          git fetch upstream main --tags
+          git merge upstream/main --no-edit
+          git push origin main
+          git push origin --tags
