@@ -19,9 +19,9 @@ No account on someone else's server, no subscription, no ads. Just `docker compo
 ![Docker](https://img.shields.io/badge/Docker-compose-2496ED?style=flat-square&logo=docker&logoColor=white)
 ![No tracking](https://img.shields.io/badge/telemetry-none-f472b6?style=flat-square)
 <br>
-![GitHub last commit](https://img.shields.io/github/last-commit/DuarteSantos8/openGym?style=flat-square)
-[![GitHub stars](https://img.shields.io/github/stars/DuarteSantos8/openGym?style=flat-square)](https://github.com/DuarteSantos8/openGym/stargazers)
-[![GitHub issues](https://img.shields.io/github/issues/DuarteSantos8/openGym?style=flat-square)](https://github.com/DuarteSantos8/openGym/issues)
+![Last commit](https://img.shields.io/gitea/last-commit/DuarteSantos/openGym?gitea_url=https%3A%2F%2Fgitea.com&style=flat-square)
+[![Stars](https://img.shields.io/gitea/stars/DuarteSantos/openGym?gitea_url=https%3A%2F%2Fgitea.com&style=flat-square)](https://gitea.com/DuarteSantos/openGym/stars)
+[![Issues](https://img.shields.io/gitea/issues/open/DuarteSantos/openGym?gitea_url=https%3A%2F%2Fgitea.com&style=flat-square)](https://gitea.com/DuarteSantos/openGym/issues)
 
 </div>
 
@@ -39,11 +39,11 @@ No account on someone else's server, no subscription, no ads. Just `docker compo
 
 <div align="center">
 
-### [🌐 opengym.duarte-santos.ch](https://opengym.duarte-santos.ch) · [▶ Try the live demo](https://duartesantos8.github.io/openGym/)
+### [🌐 opengym.duarte-santos.ch](https://opengym.duarte-santos.ch) · [📦 Source on gitea.com](https://gitea.com/DuarteSantos/openGym)
 
-No signup, nothing to install — it runs entirely in your browser on example data.<br>
-<sub>There's no server behind the demo, so passkey sign-in, sync across devices and the
-admin dashboard only exist in a self-hosted instance.</sub>
+Screenshots, docs and the APK download live on the site.<br>
+<sub>The browser demo was hosted on GitHub Pages and is offline while that account is
+suspended — self-host it (below) or sideload the Android app to try it for real.</sub>
 
 </div>
 
@@ -92,7 +92,7 @@ as a home-screen app, passkey sign-in, offline support, sync across your phone a
 You need [Docker](https://docs.docker.com/get-docker/) with Compose.
 
 ```bash
-git clone https://github.com/DuarteSantos8/openGym
+git clone https://gitea.com/DuarteSantos/openGym
 cd openGym
 cp .env.example .env
 docker compose pull   # grab prebuilt images (amd64 + arm64) — skip to build from source instead
@@ -100,8 +100,17 @@ docker compose up -d
 ```
 
 Open **http://localhost:8080**, tap **Create profile**, and you're in. First launch downloads
-the exercise media (~140 MB) once. Prefer building the images yourself instead of pulling from
-`ghcr.io`? Drop the `pull` step and run `docker compose up -d --build` — you don't need Node or
+the exercise media (~140 MB) once.
+
+> **About that media:** it comes from
+> [hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset), whose
+> metadata and instruction text are MIT — but whose images and animations are
+> **© [Gym visual](https://gymvisual.com/)**, used under that dataset's terms and *not* under
+> openGym's AGPL. openGym ships none of it: your instance downloads it from upstream. Reusing it
+> yourself, commercially or not, needs your own licence from Gym visual — see
+> [NOTICE.md](NOTICE.md).
+ Prefer building the images yourself instead of pulling from
+`gitea.com`? Drop the `pull` step and run `docker compose up -d --build` — you don't need Node or
 a build step locally either way.
 
 > Want it reachable from your phone over the internet with passkeys? You'll need an HTTPS
@@ -187,7 +196,8 @@ Rough, community-driven — ideas and PRs welcome:
 ## Tech
 
 React 19 + Vite (React Router, Zustand) · Node (no framework) · nginx · Docker Compose ·
-WebAuthn · exercise data from [hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset).
+WebAuthn · exercise data from [hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset)
+(MIT metadata and instructions; media © Gym visual — see [License](#license)).
 No database server, no cloud dependencies — the frontend builds inside Docker, so self-hosting
 stays a one-command `docker compose up`.
 
@@ -202,15 +212,18 @@ in the Docker build.
 
 ## Community
 
-- **[Q&A](https://github.com/DuarteSantos8/openGym/discussions/categories/q-a)** — self-hosting
-  help, passkey/login trouble, "how do I…". Most login problems turn out to be an `RP_ID`/`ORIGIN`
-  mismatch.
-- **[Ideas](https://github.com/DuarteSantos8/openGym/discussions/categories/ideas)** — features
-  worth talking through before anyone writes code.
-- **[Show and tell](https://github.com/DuarteSantos8/openGym/discussions/categories/show-and-tell)**
-  — your setup, your plan templates, whatever you built on top.
-- **[Issues](https://github.com/DuarteSantos8/openGym/issues)** — bugs, and work that's already
-  been agreed on.
+- **[Issues](https://gitea.com/DuarteSantos/openGym/issues)** — bugs, questions, self-hosting
+  help and ideas. gitea.com has no Discussions, so it all lives in one tracker: label a question
+  `question` and an idea `idea`, and it gets treated as one rather than as agreed-on work.
+- **Login trouble?** Most of it is an `RP_ID`/`ORIGIN` mismatch — check
+  [docs/SELF_HOSTING.md](docs/SELF_HOSTING.md) before opening an issue.
+- **Pull requests** — [open one on gitea.com](https://gitea.com/DuarteSantos/openGym/pulls); see
+  [CONTRIBUTING.md](CONTRIBUTING.md).
+
+> **On the GitHub repo:** `github.com/DuarteSantos8/openGym` is offline because the account was
+> suspended. gitea.com is the home of the project until that is resolved — same history, same
+> tags, same releases. Old GitHub issue and PR numbers in [CHANGELOG.md](CHANGELOG.md) are kept
+> as plain references; they don't map onto gitea's numbering.
 
 ## Contributing
 
@@ -229,8 +242,18 @@ top of the page is there — a star, a bug report or a PR is worth just as much.
 
 ## License
 
-[GNU AGPL v3.0](LICENSE) — free and open source. You can self-host, use, modify and share it;
-if you run a modified version as a network service, you must offer that version's source under
-the same license. Nobody can turn openGym into a closed, proprietary product.
+**openGym's own code** is [GNU AGPL v3.0](LICENSE) — free and open source. You can self-host,
+use, modify and share it; if you run a modified version as a network service, you must offer that
+version's source under the same license. Nobody can turn openGym into a closed, proprietary
+product.
 
-Exercise images/GIFs are fetched from the upstream dataset and keep their own terms — see [NOTICE.md](NOTICE.md).
+**Third-party content is not, and openGym cannot sublicense it.** The exercise metadata and
+instruction text come from
+[hasaneyldrm/exercises-dataset](https://github.com/hasaneyldrm/exercises-dataset) under the
+**MIT** license. The exercise images and animations are **© [Gym visual](https://gymvisual.com/)**
+and are used under that dataset's terms — openGym does not redistribute them (your instance
+fetches them at first run) and does not relicense them under the AGPL. To reuse that media
+yourself, get your own licence from Gym visual
+([terms](https://gymvisual.com/content/3-terms-and-conditions-of-use)).
+
+Full third-party notices, including the body-diagram geometry: **[NOTICE.md](NOTICE.md)**.
