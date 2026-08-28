@@ -28,7 +28,7 @@ jobs:
             context: .
             file: ./web/Dockerfile
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
       - name: Lowercase owner (registry names must be lowercase)
         id: repo
@@ -65,7 +65,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
 
-      - uses: docker/build-push-action@v7
+      - uses: docker/build-push-action@v6
         with:
           context: ${{ matrix.context }}
           file: ${{ matrix.file }}
